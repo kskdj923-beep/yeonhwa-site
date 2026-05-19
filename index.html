@@ -1,0 +1,2150 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>煙華亂世錄 · 연화난세록</title>
+  <style>
+    @font-face{
+      font-family: 'Chosun Centennial';
+      src: url('assets/fonts/ChosunCentennial_ttf.ttf') format('truetype');
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+    }
+    :root{--accent:#e6c07b;--muted:#9aa0a6;--kr-font:'Chosun Centennial','Nanum Brush Script','Nanum Pen Script','Nanum Myeongjo','Gungsuh','궁서',sans-serif}
+    html, body{
+  min-height:100%;
+  height:auto;
+}
+    body{
+      margin:0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans KR', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+      color: #eee;
+      background-color:#000;
+      overflow-x:hidden;
+      overflow-y:auto;
+    }
+
+    /* Apply Chosun Centennial to all Korean text */
+    :lang(ko) { font-family: var(--kr-font); }
+
+    /* Background image layer (initially zoomed-in) */
+    .bg-layer{position:fixed;inset:0;z-index:0;background-image:url('assets/images/yeonhwa-bg.png');background-size:cover;background-position:center;background-repeat:no-repeat;transform:scale(1.9);transition:transform 4200ms cubic-bezier(.2,.9,.2,1),opacity 4200ms ease;will-change:transform}
+    .bg-layer.zoomed-out{transform:scale(1);}
+
+    /* Petal (매화) gentle fall effect */
+    .petal{position:fixed;border-radius:50%;z-index:3;opacity:1;pointer-events:none;filter:drop-shadow(0 6px 8px rgba(0,0,0,0.45));will-change:transform,opacity;background:radial-gradient(circle at 35% 30%, rgba(255,255,255,0.6), rgba(255,150,180,0.98));}
+    @keyframes petal-fall{0%{transform:translateY(-12vh) translateX(0) rotate(-8deg) scale(1)}40%{transform:translateY(40vh) translateX(4vw) rotate(30deg) scale(0.98)}80%{transform:translateY(100vh) translateX(8vw) rotate(80deg) scale(0.95)}100%{transform:translateY(110vh) translateX(10vw) rotate(120deg) scale(0.94)}}
+
+    /* Tree on left with gentle branch sway */
+    .tree{position:fixed;left:4%;bottom:6%;z-index:2;width:220px;height:420px;pointer-events:none}
+    .tree .trunk{position:absolute;left:48px;bottom:0;width:26px;height:60%;background:linear-gradient(#2b1f12,#15100d);border-radius:12px}
+    .tree .branch{position:absolute;left:56px;top:40%;width:160px;height:8px;background:linear-gradient(#2f2a24,#171513);transform-origin:left center;border-radius:6px}
+    .tree .branch.b1{top:32%;transform:rotate(-10deg);animation:branch 5s ease-in-out infinite}
+    .tree .branch.b2{top:46%;transform:rotate(-6deg);animation:branch 6s ease-in-out infinite 0.5s}
+    .tree .branch.b3{top:58%;transform:rotate(-3deg);animation:branch 7s ease-in-out infinite 1s}
+    @keyframes branch{0%{transform:rotate(-6deg)}50%{transform:rotate(-2deg)}100%{transform:rotate(-6deg)}}
+
+    /* Smoky animated overlay */
+    .mist{position:fixed;inset:0;z-index:1;background:
+      radial-gradient(ellipse at 20% 30%, rgba(255,255,255,0.03) 0%, transparent 20%),
+      radial-gradient(ellipse at 80% 70%, rgba(255,255,255,0.02) 0%, transparent 25%);
+      mix-blend-mode:screen;animation: drift 18s linear infinite;}
+    @keyframes drift{0%{transform:translateY(-3%)}50%{transform:translateY(3%)}100%{transform:translateY(-3%)}}
+
+    header{position:fixed;top:0;left:0;right:0;z-index:6;display:flex;align-items:flex-start;justify-content:space-between;gap:24px;padding:18px 36px;background:#050404;border-bottom:3px solid rgba(255,110,135,0.95);box-shadow:0 22px 70px rgba(0,0,0,0.45);backdrop-filter:blur(6px)}
+    .logo{display:flex;flex-direction:column;gap:2px;text-decoration:none;color:#fff;line-height:1.05;cursor:pointer;position:relative;padding-bottom:8px}
+    .logo::after{content:'';position:absolute;left:0;right:0;bottom:0;height:4px;background:linear-gradient(90deg,#ffbddc,#ff84b0);border-radius:4px}
+    .logo-zh{font-family:'Segoe UI Historic','Nanum Brush Script','Georgia','Times New Roman',serif;font-size:32px;letter-spacing:0.18em;color:#ffe8c0;text-shadow:0 2px 18px rgba(0,0,0,0.45);font-weight:700;}
+    .logo-kr{font-family:var(--kr-font);font-size:18px;color:#f5dfb7;letter-spacing:0.22em;text-shadow:0 1px 10px rgba(0,0,0,0.35);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-rendering:optimizeLegibility;font-weight:600}
+    nav{display:flex;gap:18px;align-items:center}
+    .nav-link{color:#bbb;padding:8px 14px;border-radius:6px;text-decoration:none;font-size:14px;border:1px solid transparent}
+    .nav-link:hover{background:rgba(255,255,255,0.03);border-color:rgba(255,255,255,0.04);color:#fff}
+
+    /* Center stage */
+    .stage{position:relative;z-index:3;height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:96px 48px 40px}
+    .stage::before{content:'';position:absolute;left:50%;top:46%;transform:translateX(-50%);width:60%;height:2px;background:linear-gradient(90deg,transparent 0%,rgba(255,150,150,0.14) 25%,rgba(255,100,100,0.9) 50%,rgba(255,150,150,0.14) 75%,transparent 100%);opacity:0.82;filter:blur(0.8px);pointer-events:none;transition:opacity 700ms ease, transform 700ms ease;}
+    .stage.hidden-titles::before{opacity:0;transform:scaleX(0.3);}
+    .title-zh{font-family:'Segoe UI Historic','Noto Serif KR',serif;font-size:108px;line-height:0.88;color:var(--accent);text-shadow:0 0 1px rgba(255,255,255,0.95),0 10px 28px rgba(0,0,0,0.85),0 0 18px rgba(190,80,80,0.16);margin:0;letter-spacing:0.08em;position:relative;animation:title-glow 6s ease-in-out infinite;}
+    .title-zh::after{display:none;}
+    .title-kr{font-family:var(--kr-font);font-size:34px;color:#f1e6c3;margin-top:10px;letter-spacing:0.18em;font-weight:600;position:relative;text-shadow:0 0 1px rgba(0,0,0,0.85),0 4px 14px rgba(0,0,0,0.35),0 0 12px rgba(200,80,80,0.1);animation:subtle-shift 9s ease-in-out infinite;}
+    .title-kr::after{display:none;}
+    .tagline{margin-top:28px;color:#111;font-size:16px;opacity:0.95;padding:0;backdrop-filter:none;filter:none;background:transparent;box-shadow:none;max-width:760px;font-weight:600;letter-spacing:0.04em;text-shadow:0 2px 10px rgba(0,0,0,0.22);position:relative;}
+    .tagline::after{content:'魂燃千里';position:absolute;right:-4px;top:-30px;font-size:12px;color:rgba(255,125,125,0.18);letter-spacing:0.12em;transform:translateX(8px) rotate(2deg);opacity:0.7;}
+
+    @keyframes title-glow{0%,100%{text-shadow:0 10px 28px rgba(0,0,0,0.85),0 0 18px rgba(190,80,80,0.12);}50%{text-shadow:0 14px 32px rgba(0,0,0,0.9),0 0 30px rgba(215,90,90,0.22);}}
+    @keyframes shine-swipe{0%,80%{transform:translateX(-50%) scaleX(0.3);opacity:0.25;}45%{transform:translateX(-50%) scaleX(1);opacity:0.55;}100%{transform:translateX(150%) scaleX(0.3);opacity:0;}}
+    @keyframes subtle-shift{0%,100%{transform:translateX(0);}50%{transform:translateX(1px);}}
+    .stage.hidden-titles .title-zh,
+    .stage.hidden-titles .title-kr,
+    .stage.hidden-titles .tagline{opacity:0;transform:translateY(-20px);pointer-events:none;transition:opacity 0.5s ease, transform 0.5s ease;}
+
+    .enter-btn{margin-top:34px;padding:18px 54px;font-size:18px;border-radius:0;border:2px solid rgba(150,30,30,0.92);background:linear-gradient(180deg,rgba(8,6,6,0.98),rgba(18,10,10,0.98));color:#ffe8c0;cursor:pointer;backdrop-filter:blur(4px);box-shadow:inset 0 0 0 1px rgba(255,120,120,0.10),0 10px 36px rgba(0,0,0,0.45);transition:transform 0.28s ease,box-shadow 0.28s ease,background 0.28s ease,opacity 0.5s ease;position:relative;overflow:hidden;font-family:var(--kr-font);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-rendering:optimizeLegibility;font-weight:600}
+    .enter-btn::before{content:'';position:absolute;inset:6px;pointer-events:none;border-top:1px solid rgba(255,80,80,0.10);border-bottom:1px solid rgba(255,80,80,0.10);border-left:1px solid rgba(255,80,80,0.06);border-right:1px solid rgba(255,80,80,0.06);mix-blend-mode:screen;}
+    .enter-btn::after{content:'';position:absolute;left:0;right:0;bottom:0;height:12px;opacity:0.1;background:linear-gradient(90deg,transparent 0%,rgba(255,90,90,0.25) 50%,transparent 100%);pointer-events:none;}
+    .enter-btn:hover{transform:translateY(-2px);box-shadow:inset 0 0 0 1px rgba(255,160,160,0.12),0 15px 45px rgba(0,0,0,0.45);background:linear-gradient(180deg,rgba(10,8,8,0.98),rgba(30,12,12,0.99));}
+    .enter-btn:active{transform:translateY(1px);box-shadow:inset 0 0 0 1px rgba(255,120,120,0.08),0 8px 24px rgba(0,0,0,0.40);background:linear-gradient(180deg,rgba(15,10,10,0.98),rgba(40,16,16,0.99));}
+    .enter-btn.fade-away{opacity:0;transform:scale(0.96);box-shadow:0 4px 12px rgba(0,0,0,0.35);}
+
+    /* Three-panel entry grid (large, semi-opaque, hidden by default) */
+    .entry-grid{position:absolute;top:48%;left:50%;z-index:5;display:flex;gap:28px;width:92%;height:44vh;max-width:1400px;transform:translate(-50%, -50%);opacity:0;pointer-events:none;justify-content:space-between;align-items:stretch;}
+    .entry-grid.show{opacity:1;pointer-events:auto}
+   .entry-card{
+  flex:1;
+  margin:0 8px;
+  position:relative;
+  overflow:hidden;
+
+  background:
+    linear-gradient(180deg, rgba(10,8,8,0.72), rgba(0,0,0,0.92)),
+    radial-gradient(circle at 50% 18%, rgba(241,210,138,0.16), transparent 34%);
+
+  border:1px solid rgba(241,210,138,0.42);
+  border-radius:22px;
+  padding:52px;
+
+  color:#fff;
+  box-shadow:
+    0 28px 84px rgba(0,0,0,0.72),
+    inset 0 0 35px rgba(241,210,138,0.06);
+
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+
+  cursor:pointer;
+  opacity:0;
+  transform:translateY(-80px);
+  transition:0.35s ease;
+  backdrop-filter:blur(6px);
+}
+
+.entry-card::before{
+  content:"";
+  position:absolute;
+  inset:12px;
+  border:1px solid rgba(255,220,160,0.16);
+  border-radius:16px;
+  pointer-events:none;
+}
+
+.entry-card::after{
+  content:"";
+  position:absolute;
+  width:180px;
+  height:180px;
+  border-radius:50%;
+  background:rgba(255,180,120,0.08);
+  filter:blur(28px);
+  top:-70px;
+  right:-60px;
+}
+
+.entry-card:hover{
+  transform:translateY(-10px);
+  border-color:rgba(255,190,140,0.78);
+  box-shadow:
+    0 34px 100px rgba(0,0,0,0.85),
+    0 0 36px rgba(255,130,170,0.18),
+    inset 0 0 45px rgba(241,210,138,0.1);
+}
+    .entry-grid.show .entry-card:nth-child(1){animation:dropSlow 2600ms cubic-bezier(.2,.9,.2,1) 0ms both}
+    .entry-grid.show .entry-card:nth-child(2){animation:dropSlow 3000ms cubic-bezier(.2,.9,.2,1) 450ms both}
+    .entry-grid.show .entry-card:nth-child(3){animation:dropSlow 3400ms cubic-bezier(.2,.9,.2,1) 900ms both}
+    @keyframes dropSlow{0%{opacity:0;transform:translateY(-180px)}60%{opacity:1;transform:translateY(-20px)}100%{opacity:1;transform:translateY(0)}}
+    .entry-card:hover{transform:translateY(-6px);box-shadow:0 34px 84px rgba(0,0,0,0.7)}
+    .entry-card .eyebrow{font-size:14px;color:rgba(255,200,160,0.95);letter-spacing:0.18em;margin-bottom:6px;text-align:center}
+    .entry-card .big-title{font-size:34px;font-weight:800;margin:0 0 12px 0;text-align:center}
+    .entry-card .desc{font-size:15px;color:rgba(255,255,255,0.92);opacity:0.95;text-align:center;max-width:88%}
+
+    @media (max-width:900px){
+      .entry-grid{flex-direction:column;height:auto;width:92%}
+      .entry-card{margin:10px 0;height:auto}
+    }
+
+
+    /* Footer small note */
+    footer{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);color:#777;font-size:13px;z-index:4}
+
+    /* Responsive */
+    @media (max-width:640px){
+      .title-zh{font-size:48px}
+      .title-kr{font-size:16px}
+      .logo-zh{font-size:20px}
+      .logo-kr{font-size:14px}
+      header{left:16px;top:14px}
+    }
+    .music-controls{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.music-controls button{
+  background:rgba(255,120,180,0.12);
+  border:1px solid #ff9fc8;
+  color:#ff9fc8;
+  padding:6px 10px;
+  border-radius:8px;
+  cursor:pointer;
+}
+
+.music-controls button:hover{
+  background:rgba(255,120,180,0.25);
+}
+
+#volumeControl{
+  width:90px;
+  accent-color:#ff9fc8;
+}
+.page{
+  display:none;
+}
+
+.page.active{
+  display:block;
+}
+
+header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+
+nav{
+  display:flex;
+  gap:22px;
+  align-items:center;
+}
+
+.nav-link{
+  color:#ff9fc8;
+  text-decoration:none;
+  font-size:18px;
+  font-weight:bold;
+  transition:0.25s;
+}
+
+.nav-link:hover{
+  color:#ffd6e8;
+}
+
+#peoplePage{
+  min-height:100vh;
+  padding:90px 7vw 80px;
+  background:
+    linear-gradient(rgba(0,0,0,0.72), rgba(0,0,0,0.82)),
+    url("assets/images/people-bg.png");
+  background-size:cover;
+  background-position:center;
+  background-attachment:fixed;
+  background-repeat:no-repeat;
+}
+
+#peoplePage{
+  min-height:100vh;
+  overflow-y:auto;
+}
+
+#peoplePage .page-title{
+  text-align:center;
+  margin-bottom:60px;
+}
+
+#peoplePage .page-title h1{
+  font-size:56px;
+  color:#f1d28a;
+  margin:0;
+}
+
+#peoplePage .page-title p{
+  color:#ddd;
+}
+
+#peoplePage .section{
+  margin-bottom:90px;
+}
+
+#peoplePage .section h2{
+  font-size:36px;
+  border-left:5px solid #b85b7a;
+  padding-left:18px;
+  color:#f1d28a;
+}
+
+#peoplePage .grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+  gap:24px;
+  margin-top:28px;
+}
+
+#peoplePage .card{
+  background:rgba(5,5,5,0.78);
+  backdrop-filter:blur(4px);
+  border:1px solid #5b3b2e;
+  border-radius:16px;
+  overflow:hidden;
+  min-height:320px;
+  box-shadow:0 20px 50px rgba(0,0,0,0.45);
+  cursor:pointer;
+}
+
+#peoplePage .portrait{
+  height:220px;
+  background:#171010;
+  background-size:cover;
+  background-position:center;
+  opacity:0.88;
+}
+
+#peoplePage .info{
+  padding:18px;
+  text-align:center;
+}
+
+#peoplePage .role{
+  color:#c9a96a;
+  font-size:14px;
+}
+
+#peoplePage .name{
+  font-size:24px;
+  font-weight:bold;
+  margin-top:6px;
+}
+
+#peoplePage .alias{
+  color:#aaa;
+  margin-top:6px;
+  font-size:14px;
+}
+
+#peoplePage .home{
+  color:#888;
+  margin-top:8px;
+  font-size:13px;
+}
+
+.page-title{
+  text-align:center;
+  margin-bottom:60px;
+}
+
+.page-title h1{
+  font-size:56px;
+  color:#f1d28a;
+  margin:0;
+}
+
+.page-title p{
+  color:#aaa;
+}
+
+.section{
+  margin-bottom:90px;
+}
+
+.section h2{
+  font-size:36px;
+  border-left:5px solid #b85b7a;
+  padding-left:18px;
+  color:#f1d28a;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+  gap:24px;
+  margin-top:28px;
+}
+
+.card{
+  background:rgba(5,5,5,0.78);
+  backdrop-filter:blur(4px);
+  border:1px solid #5b3b2e;
+  border-radius:16px;
+  overflow-x:hidden;
+  overflow-y:auto;
+  min-height:320px;
+  box-shadow:0 20px 50px rgba(0,0,0,0.45);
+}
+
+.portrait{
+  height:220px;
+  background:#171010;
+  background-size:cover;
+  background-position:center;
+  opacity:0.88;
+}
+
+.info{
+  padding:18px;
+  text-align:center;
+}
+
+.role{
+  color:#c9a96a;
+  font-size:14px;
+}
+
+.name{
+  font-size:24px;
+  font-weight:bold;
+  margin-top:6px;
+}
+
+.alias{
+  color:#aaa;
+  margin-top:6px;
+  font-size:14px;
+}
+
+.home{
+  color:#888;
+  margin-top:8px;
+  font-size:13px;
+}
+.modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.75);
+  z-index:999;
+  align-items:center;
+  justify-content:center;
+}
+
+.modal.show{
+  display:flex;
+}
+
+.modal-box{
+  position:relative;
+  width:520px;
+  max-width:90%;
+  background:#111;
+  border:1px solid #b8945d;
+  border-radius:18px;
+  padding:36px;
+  color:white;
+}
+
+.close{
+  position:absolute;
+  top:12px;
+  right:16px;
+  background:none;
+  border:none;
+  color:white;
+  font-size:28px;
+  cursor:pointer;
+}
+
+.arrow{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  background:none;
+  border:none;
+  color:#d6c08d;
+  font-size:48px;
+  cursor:pointer;
+}
+
+.left{ left:12px; }
+.right{ right:12px; }
+
+.modal-content{
+  text-align:center;
+}
+
+.modal-image{
+  width:220px;
+  height:320px;
+  object-fit:cover;
+  border-radius:14px;
+  margin-bottom:20px;
+  border:1px solid #7a5a2b;
+}
+
+.map-img{
+  width:92%;
+  max-width:1500px;
+  border-radius:18px;
+  box-shadow:0 0 70px rgba(0,0,0,0.8);
+  border:1px solid #8b7355;
+}
+.map-wrap{
+  position:relative;
+  width:92%;
+  max-width:1500px;
+  margin:40px auto;
+}
+
+.map-wrap .map-img{
+  width:100%;
+  display:block;
+}
+
+.marker{
+  position:absolute;
+  transform:translate(-50%,-50%);
+  padding:5px 8px;
+  border-radius:999px;
+  border:1px solid #f1d28a;
+  background:rgba(0,0,0,0.72);
+  color:#fff;
+  font-size:12px;
+  font-weight:bold;
+  cursor:pointer;
+  white-space:nowrap;
+  box-shadow:0 0 14px rgba(0,0,0,0.8);
+}
+
+.marker:hover{
+  transform:translate(-50%,-50%) scale(1.18);
+  z-index:5;
+}
+
+.marker.empire{ border-color:#ff9fc8; color:#ffd6e8; }
+.marker.north{ border-color:#9fc7ff; color:#d6e8ff; }
+.marker.cult{ border-color:#ff4444; color:#ffb3b3; }
+.marker.neutral{ border-color:#d6c08d; color:#f3e5b0; }
+.marker.wall{ border-color:#aaa; color:#eee; }
+
+.place-panel{
+  display:flex;  
+  position:fixed;
+  inset:0;
+  z-index:999;
+  background:rgba(0,0,0,0.78);
+  backdrop-filter:blur(5px);
+  align-items:center;
+  justify-content:center;
+  padding:40px;
+  opacity:0;
+  pointer-events:none;
+  transition:opacity 0.35s ease;
+}
+
+.place-panel.show{
+  opacity:1;
+  pointer-events:auto;
+}
+
+.place-panel-inner{
+  width:92%;
+  max-width:1250px;
+  min-height:620px;
+
+  display:grid;
+  grid-template-columns:430px 1fr;
+  gap:42px;
+
+  padding:42px;
+
+  background:
+    linear-gradient(rgba(0,0,0,0.82), rgba(0,0,0,0.88)),
+    url("assets/images/panel-bg.png");
+
+  background-size:cover;
+  background-position:center;
+
+  border:1px solid #b8945d;
+  border-radius:24px;
+
+  box-shadow:0 0 90px rgba(0,0,0,0.92);
+
+  position:relative;
+  align-items:center;
+
+  opacity:0;
+  transform:translateY(30px) scale(0.96);
+
+  transition:
+    opacity 0.42s ease,
+    transform 0.42s cubic-bezier(.2,.9,.2,1);
+
+  margin:auto;
+}
+
+.place-panel.show .place-panel-inner{
+  opacity:1;
+  transform:translateY(0) scale(1);
+}
+
+.close{
+  position:absolute;
+  top:14px;
+  right:18px;
+  width:36px;
+  height:36px;
+  border:none;
+  background:rgba(120,0,0,0.85);
+  color:#fff;
+  font-size:24px;
+  font-weight:bold;
+  border-radius:50%;
+  cursor:pointer;
+}
+
+.close:hover{
+  background:#c00000;
+}
+
+.place-image{
+  width:100%;
+  height:340px;
+
+  background-size:cover;
+  background-position:center;
+
+  border-radius:18px;
+  border:1px solid #66543a;
+
+  box-shadow:0 0 25px rgba(0,0,0,0.45);
+}
+
+.place-left h2{
+  margin:20px 0 0;
+  color:#f1d28a;
+  font-size:56px;
+}
+
+.place-hanja{
+  color:#d6c08d;
+  margin-top:4px;
+  font-size:26px;
+}
+
+.place-type{
+  color:#ff9fc8;
+  margin-top:22px;
+  font-weight:bold;
+}
+
+.place-short{
+  font-size:20px;
+  line-height:1.8;
+}
+
+.place-text{
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
+
+.place-text h3{
+  font-size:34px;
+  color:#f1d28a;
+}
+
+.place-desc{
+  font-size:21px;
+  line-height:2;
+}
+
+.place-people,
+.place-special{
+  font-size:20px;
+  line-height:1.9;
+  color:#f1d28a;
+}
+
+#mapPage{
+  min-height:100vh;
+  padding:110px 5vw 80px;
+  text-align:center;
+
+  background:
+    linear-gradient(rgba(0,0,0,0.78), rgba(0,0,0,0.88)),
+    url("assets/images/map-bg.png");
+
+  background-size:cover;
+  background-position:center;
+  background-repeat:no-repeat;
+  background-attachment:fixed;
+}
+
+#mapPage h1{
+  color:#f1d28a;
+  font-size:52px;
+}
+
+#mapPage p{
+  color:#ddd;
+}
+
+#mapPage .map-wrap{
+  position:relative;
+  width:92%;
+  max-width:1500px;
+  margin:40px auto;
+}
+
+#mapPage .map-img{
+  width:100%;
+  display:block;
+  border-radius:18px;
+  box-shadow:0 0 70px rgba(0,0,0,0.8);
+  border:1px solid #8b7355;
+}
+
+#worldPage{
+  min-height:100vh;
+  padding:120px 8vw 100px;
+  background:
+    linear-gradient(rgba(0,0,0,0.72), rgba(0,0,0,0.9)),
+    url("assets/images/world-bg.png");
+  background-size:cover;
+  background-position:center;
+  background-attachment:fixed;
+  color:#eee;
+}
+
+.world-hero{
+  text-align:center;
+  margin-bottom:80px;
+}
+
+.world-hanja{
+  font-size:72px;
+  color:#f1d28a;
+  letter-spacing:0.12em;
+  text-shadow:0 0 25px rgba(0,0,0,0.9);
+}
+
+.world-kor{
+  margin-top:12px;
+  font-size:24px;
+  color:#ff9fc8;
+  letter-spacing:0.25em;
+}
+
+.world-block{
+  max-width:1150px;
+  margin:0 auto 54px;
+  padding:42px 50px;
+  background:rgba(5,5,5,0.78);
+  border:1px solid rgba(184,148,93,0.75);
+  border-radius:22px;
+  box-shadow:0 25px 80px rgba(0,0,0,0.65);
+  backdrop-filter:blur(6px);
+}
+
+.world-title{
+  font-size:34px;
+  color:#f1d28a;
+  margin-bottom:24px;
+  border-left:5px solid #ff9fc8;
+  padding-left:18px;
+}
+
+.world-text{
+  font-size:19px;
+  line-height:2.05;
+  color:#eee;
+  white-space:pre-line;
+}
+
+.gold{ color:#f1d28a; font-weight:bold; }
+.red{ color:#ff7777; font-weight:bold; }
+
+.timeline{
+  display:flex;
+  flex-direction:column;
+  gap:22px;
+}
+
+.timeline-item{
+  display:grid;
+  grid-template-columns:150px 1fr;
+  gap:24px;
+  padding:20px 0;
+  border-bottom:1px solid rgba(255,255,255,0.12);
+}
+
+.timeline-year{
+  color:#ff9fc8;
+  font-size:22px;
+  font-weight:bold;
+}
+
+.timeline-desc{
+  font-size:18px;
+  line-height:1.9;
+}
+
+.faction-name,
+.order-name{
+  margin-top:34px;
+  margin-bottom:10px;
+  color:#f1d28a;
+  font-size:26px;
+  font-weight:bold;
+}
+
+.legend{
+  margin:18px 0;
+  padding:18px 24px;
+  background:rgba(255,255,255,0.045);
+  border-left:4px solid #b85b7a;
+  color:#f5dfb7;
+  font-size:18px;
+  line-height:1.8;
+}
+  </style>
+</head>
+<body id="top">
+
+  <header>
+
+  <a class="logo" href="#" onclick="showPage('home')" aria-label="홈으로 이동">
+    <span class="logo-zh">煙華亂世錄</span>
+    <span class="logo-kr">연화난세록</span>
+  </a>
+
+  <nav>
+    <a class="nav-link" href="#" onclick="showPage('home')">홈</a>
+    <a class="nav-link" href="#" onclick="showPage('people')">인물</a>
+    <a class="nav-link" href="#" onclick="showPage('world')">세계관</a>
+    <a class="nav-link" href="#" onclick="showPage('map')">지도</a>
+  </nav>
+
+  <div class="music-controls">
+
+    <button id="playMusic">▶</button>
+
+    <button id="pauseMusic">⏸</button>
+
+    <input
+      type="range"
+      id="volumeControl"
+      min="0"
+      max="1"
+      step="0.01"
+      value="0.35"
+    >
+
+  </div>
+
+</header>
+
+<section id="homePage" class="page active">
+
+  <div class="bg-layer" aria-hidden="true"></div>
+  <div class="mist"></div>
+
+  <!-- Original-style static petals (fall continuously, original look) -->
+  <div class="petal" style="left:6%; top:-8vh; width:14px;height:10px; animation:petal-fall 9.2s linear infinite; animation-delay:-1s"></div>
+  <div class="petal" style="left:14%; top:-10vh; width:12px;height:9px; animation:petal-fall 8.8s linear infinite; animation-delay:-3s"></div>
+  <div class="petal" style="left:22%; top:-6vh; width:16px;height:11px; animation:petal-fall 10.0s linear infinite; animation-delay:-5s"></div>
+  <div class="petal" style="left:30%; top:-4vh; width:10px;height:8px; animation:petal-fall 9.4s linear infinite; animation-delay:-7s"></div>
+  <div class="petal" style="left:40%; top:-12vh; width:18px;height:12px; animation:petal-fall 11.0s linear infinite; animation-delay:-2s"></div>
+  <div class="petal" style="left:50%; top:-8vh; width:12px;height:9px; animation:petal-fall 9.6s linear infinite; animation-delay:-4s"></div>
+  <div class="petal" style="left:60%; top:-11vh; width:14px;height:10px; animation:petal-fall 10.2s linear infinite; animation-delay:-6s"></div>
+  <div class="petal" style="left:70%; top:-5vh; width:10px;height:8px; animation:petal-fall 9.9s linear infinite; animation-delay:-8s"></div>
+  <div class="petal" style="left:80%; top:-9vh; width:16px;height:11px; animation:petal-fall 10.6s linear infinite; animation-delay:-9s"></div>
+  <div class="petal" style="left:88%; top:-7vh; width:12px;height:9px; animation:petal-fall 9.4s linear infinite; animation-delay:-3s"></div>
+
+  <main class="stage" role="main">
+    <h1 class="title-zh">煙華亂世錄</h1>
+    <div class="title-kr">연화난세록</div>
+    <div class="tagline">천하를 가른 것은 산맥이 아니라 인간이었다.</div>
+    <button class="enter-btn" id="enter">난세에 발을 들이다</button>
+
+    <div class="entry-grid" id="entryGrid" aria-hidden="true">
+      <div class="entry-card" id="card-people" role="button" tabindex="0" aria-label="인물도감 이동">
+        <div class="eyebrow">人</div>
+        <div class="big-title">인물도감</div>
+        <div class="desc">세계의 주요 인물과 그들의 이야기를 살펴봅니다.</div>
+      </div>
+      <div class="entry-card" id="card-world" role="button" tabindex="0" aria-label="세계관 이동">
+        <div class="eyebrow">世</div>
+        <div class="big-title">세계관</div>
+        <div class="desc">연화난세록의 역사, 세력, 규칙을 탐구합니다.</div>
+      </div>
+      <div class="entry-card" id="card-map" role="button" tabindex="0" aria-label="지도 이동">
+        <div class="eyebrow">圖</div>
+        <div class="big-title">지도</div>
+        <div class="desc">주요 지형과 장소를 지도로 확인합니다.</div>
+      </div>
+    </div>
+  </main>
+
+  <footer>© 연화난세록 · 무협 세계관</footer>
+
+  </section>
+
+  <section id="peoplePage" class="page">
+
+    <section class="page-title">
+  <h1>人物圖鑑</h1>
+  <p>연화난세록의 주요 인물들</p>
+</section>
+
+<section class="section">
+  <h2>1. 연화제국</h2>
+  <div class="grid">
+    <div class="card" onclick="openModal(0)"><div class="portrait" style="background-image:url('assets/images/연휘.png')"></div><div class="info"><div class="role">연화제국 황제</div><div class="name">연휘</div><div class="alias">중흥천자</div><div class="home">황도</div></div></div>
+    <div class="card" onclick="openModal(1)"><div class="portrait" style="background-image:url('assets/images/연윤.png')"></div><div class="info"><div class="role">연화제국 황태자</div><div class="name">연윤</div><div class="alias">잠룡태자</div><div class="home">황도</div></div></div>
+    <div class="card" onclick="openModal(2)"><div class="portrait" style="background-image:url('assets/images/제갈현.png')"></div><div class="info"><div class="role">연화제국 재상</div><div class="name">제갈현</div><div class="alias">백린수사</div><div class="home">황도</div></div></div>
+    <div class="card" onclick="openModal(3)"><div class="portrait" style="background-image:url('assets/images/진무백.png')"></div><div class="info"><div class="role">천룡대장군</div><div class="name">진무백</div><div class="alias">철기무후</div><div class="home">천룡요새</div></div></div>
+    <div class="card" onclick="openModal(4)"><div class="portrait" style="background-image:url('assets/images/서하린.png')"></div><div class="info"><div class="role">화산파 일대제자</div><div class="name">서하린</div><div class="alias">유성검화</div><div class="home">화산촌</div ></div ></div >
+    <div class ="card" onclick ="openModal(5)" ><div class ="portrait" style ="background-image:url('assets/images/당유설.png')" ></div ><div class ="info" ><div class ="role" > 사천당가 소가주 </div ><div class ="name" > 당유설 </div ><div class ="alias" > 비혈독희 </div ><div class ="home" > 화계성 </div ></div ></div >
+    <div class ="card" onclick ="openModal(6)" ><div class ="portrait" style ="background-image:url('assets/images/연청우.png')" ></div ><div class ="info" ><div class ="role" > 종남파 일대제자 </div ><div class ="name" > 연청우 </div ><div	class ="alias" > 무영도객 </div ><div	class ="home" > 연곡성 </div ></div ></div >
+    <div class="card" onclick="openModal(7)"><div class="portrait" style="background-image:url('assets/images/혜무.png')"></div><div class="info"><div class="role">소림사 무승</div><div class="name">혜무</div><div class="alias">금강무승</div><div class="home">천화성</div></div></div>
+    <div class="card" onclick="openModal(8)"><div class="portrait" style="background-image:url('assets/images/남궁설.png')"></div><div class="info"><div class="role">남궁세가 소가주</div><div class="name">남궁설</div><div class="alias">설영검희</div><div class="home">영하성</div></div></div>
+    <div class="card" onclick="openModal(9)"><div class="portrait" style="background-image:url('assets/images/제갈아린.png')"></div><div class="info"><div class="role">제갈세가 책사</div><div class="name">제갈아린</div><div class="alias">유운천기</div><div class="home">봉래성</div></div></div>
+  </div>
+</section>
+
+<section class="section">
+  <h2>2. 북량</h2>
+  <div class="grid">
+    <div class="card" onclick="openModal(10)"><div class="portrait" style="background-image:url('assets/images/혁무진.png')"></div><div class="info"><div class="role">북량왕</div><div class="name">혁무진</div><div class="alias">북천패왕</div><div class="home">북량성</div></div></div>
+    <div class="card" onclick="openModal(11)"><div class="portrait" style="background-image:url('assets/images/혁련하설.png')"></div><div class="info"><div class="role">북량 왕녀</div><div class="name">혁련하설</div><div class="alias">설랑공주</div><div class="home">북량성</div></div></div>
+    <div class="card" onclick="openModal(12)"><div class="portrait" style="background-image:url('assets/images/묵현.png')"></div><div class="info"><div class="role">북량 국사</div><div class="name">묵현</div><div class="alias">흑천도사</div><div class="home">북량성</div></div></div>
+    <div class="card" onclick="openModal(13)"><div class="portrait" style="background-image:url('assets/images/강여진.png')"></div ><div class ="info" ><div class ="role" > 북량 대사마 </div ><div class ="name" > 강여진 </div ><div	class ="alias" > 혈풍전호 </div ><div	class ="home" > 북량성 </div ></div ></div >
+    <div class="card" onclick="openModal(14)"><div class="portrait" style="background-image:url('assets/images/악진호.png')"></div><div class="info"><div class="role">공동파 일대제자</div><div class="name">악진호</div><div class="alias">파군권호</div><div class="home">화량성</div></div></div>
+    <div class="card" onclick="openModal(15)"><div class="portrait" style="background-image:url('assets/images/서문연.png')"></div><div class="info"><div class="role">청성파 검수</div><div class="name">서문연</div><div class="alias">귀영비검</div><div class="home">한원촌</div></div></div>
+    <div class="card" onclick="openModal(16)"><div class="portrait" style="background-image:url('assets/images/담월.png')"></div><div class="info"><div class="role">곤륜파 도인</div><div class="name">담월</div><div class="alias">설학도인</div><div class="home">운림촌</div></div></div>
+    <div class="card" onclick="openModal(17)"><div class="portrait" style="background-image:url('assets/images/모용천야.png')"></div><div class="info"><div class="role">모용세가 소가주</div><div class="name">모용천야</div><div class="alias">빙천검군</div><div class="home">요연성</div></div></div>
+    <div class="card" onclick="openModal(18)"><div class="portrait" style="background-image:url('assets/images/팽소란.png')"></div ><div class ="info" ><div class ="role" > 하북팽가 무인 </div ><div class ="name" > 팽소란 </div ><div	class ="alias" > 광도무희 </div ><div	class ="home" > 거연항 </div ></div ></div >
+  </div>
+</section>
+
+<section class="section">
+  <h2>3. 개방 · 녹림 · 동해</h2>
+  <div class="grid">
+    <div class="card" onclick="openModal(19)"><div class="portrait" style="background-image:url('assets/images/소개.png')"></div><div class="info"><div class="role">개방 방주</div><div class="name">소개</div><div class="alias">취룡개왕</div><div class="home">해운관</div></div></div>
+    <div class="card" onclick="openModal(20)"><div class="portrait" style="background-image:url('assets/images/진악.png')"></div><div class="info"><div class="role">청양녹림채 채주</div><div class="name">진악</div><div class="alias">녹림귀왕</div><div class="home">청양호 인근</div></div></div>
+    <div class="card" onclick="openModal(21)"><div class="portrait" style="background-image:url('assets/images/장해운.png')"></div><div class="info"><div class="role">동해십팔채 패주</div><div class="name">장해운</div><div class="alias">창해패왕</div><div class="home">거연항·연마항 사이 군도</div></div></div>
+  </div>
+</section>
+
+<section class="section">
+  <h2>4. 적멸교</h2>
+  <div class="grid">
+    <div class="card" onclick="openModal(22)"><div class="portrait" style="background-image:url('assets/images/천무혁.png')"></div><div class="info"><div class="role">적멸궁주</div><div class="name">천무혁</div><div class="alias">적천마존</div><div class="home">마천산맥 적멸궁</div></div></div>
+    <div class="card" onclick="openModal(23)"><div class="portrait" style="background-image:url('assets/images/적련화.png')"></div><div class="info"><div class="role">사천마</div><div class="name">적련화</div><div class="alias">혈월마도</div><div class="home">마천산맥 적멸궁</div></div></div>
+    <div class="card" onclick="openModal(24)"><div class="portrait" style="background-image:url('assets/images/귀야.png')"></div><div class="info"><div class="role">사천마</div><div class="name">귀야</div><div class="alias">흑야귀수</div><div class="home">마천산맥 적멸궁</div></div></div>
+    <div class="card" onclick="openModal(25)"><div class="portrait" style="background-image:url('assets/images/사독린.png')"></div><div class="info"><div class="role">사천마</div><div class="name">사독린</div><div class="alias">천독사군</div><div class="home">마천산맥 적멸궁</div></div></div>
+    <div class="card" onclick="openModal(26)"><div class="portrait" style="background-image:url('assets/images/무명.png')"></div><div class="info"><div class="role">사천마</div ><div class ="name" > 무명 </div ><div	class ="alias" > 환야마객 </div ><div	class ="home" > 마천산맥 적멸궁 </div ></div ></div >
+    </div>
+    </section>
+</section>
+
+<section id="mapPage" class="page">
+  <h1>天下全圖</h1>
+  <p>천하는 넓고, 인간은 그 안에서 서로를 탐한다.</p>
+
+  <div class="map-wrap">
+  <img src="assets/images/map.png" class="map-img">
+
+  <!-- 북량 -->
+  <button class="marker north" style="left:28%; top:17%;" title="북량성">북량성</button>
+  <button class="marker north" style="left:52%; top:19%;" title="화량성">화량성</button>
+  <button class="marker north" style="left:79%; top:31%;" title="요연성">요연성</button>
+  <button class="marker north" style="left:72%; top:37%;" title="요연촌">요연촌</button>
+  <button class="marker north" style="left:63%; top:14%;" title="종한촌">종한촌</button>
+  <button class="marker north" style="left:47%; top:19.5%;" title="영광촌">영광촌</button>
+  <button class="marker north" style="left:38%; top:10%;" title="한원촌">한원촌</button>
+  <button class="marker north" style="left:28%; top:26.5%;" title="빙원촌">빙원촌</button>
+  <button class="marker north" style="left:23%; top:33%;" title="운림촌">운림촌</button>
+  <button class="marker north" style="left:39%; top:18%;" title="왕암촌">왕암촌</button>
+  <button class="marker north" style="left:92%; top:34%;" title="거연항">거연항</button>
+
+  <!-- 장벽/중립 -->
+  <button class="marker wall" style="left:46%; top:41%;" title="현무장벽">현무장벽</button>
+  <button class="marker wall" style="left:91%; top:53%;" title="해운관">해운관</button>
+  <button class="marker wall" style="left:73%; top:46.5%;" title="동명관">동명관</button>
+  <button class="marker wall" style="left:54%; top:45.5%;" title="천격관">천격관</button>
+  <button class="marker wall" style="left:36%; top:45.5%;" title="청하관">청하관</button>
+  <button class="marker wall" style="left:24%; top:45%;" title="화룡관">화룡관</button>
+  <button class="marker neutral" style="left:41%; top:28.5%;" title="청양호">청양호</button>
+  <button class="marker neutral" style="left:94%; top:64%;" title="동해">동해</button>
+  <button class="marker neutral" style="left:72%; top:16%;" title="풍한평원">풍한평원</button>
+  <button class="marker neutral" style="left:79.5%; top:60%;" title="영수강">영수강</button>
+  <button class="marker neutral" style="left:45%; top:59.3%;" title="연화강">연화강</button>
+
+  <!-- 연화제국 -->
+  <button class="marker empire" style="left:52%; top:70%;" title="황도">황도</button>
+  <button class="marker empire" style="left:53%; top:50%;" title="천녹요새">천녹요새</button>
+  <button class="marker empire" style="left:59.8%; top:56%;" title="화산촌">화산촌</button>
+  <button class="marker empire" style="left:26.5%; top:77.5%;" title="화계성">화계성</button>
+  <button class="marker empire" style="left:23%; top:55%;" title="연곡성">연곡성</button>
+  <button class="marker empire" style="left:16%; top:57.5%;" title="연림촌">연림촌</button>
+  <button class="marker empire" style="left:13.5%; top:68%;" title="낙계촌">낙계촌</button>
+  <button class="marker empire" style="left:51.2%; top:89.3%;" title="천화성">천화성</button>
+  <button class="marker empire" style="left:46%; top:94.5%;" title="천화촌">천화촌</button>
+  <button class="marker empire" style="left:66%; top:58%;" title="영하성">영하성</button>
+  <button class="marker empire" style="left:80%; top:79%;" title="봉래성">봉래성</button>
+  <button class="marker empire" style="left:29.5%; top:64.5%;" title="청두촌">청두촌</button>
+  <button class="marker empire" style="left:18%; top:84%;" title="독림촌">독림촌</button>
+  <button class="marker empire" style="left:72.5%; top:85%;" title="봉래촌">봉래촌</button>
+  <button class="marker empire" style="left:91%; top:85%;" title="연마항">연마항</button>
+
+  <!-- 적멸교 -->
+  <button class="marker cult" style="left:11%; top:40%;" title="마천산맥 적멸궁">적멸궁</button>
+
+    </div>
+
+<div class="place-panel" id="placePanel">
+  <div class="place-panel-inner">
+    <button class="close" onclick="closePlace()">×</button>
+
+    <div class="place-left">
+      <div class="place-image" id="placeImage"></div>
+      <h2 id="placeName">지역을 선택하세요</h2>
+      <div class="place-hanja" id="placeHanja">天下全圖</div>
+      <div class="place-type" id="placeType">천하전도</div>
+      <div class="place-short" id="placeShort">지도 위의 지역을 선택하세요.</div>
+    </div>
+
+    <div class="place-text">
+      <h3>상세 정보</h3>
+      <div class="place-desc" id="placeDesc"></div>
+      <div class="place-people" id="placePeople"></div>
+      <div class="place-special" id="placeSpecial"></div>
+    </div>
+  </div>
+</div>
+
+    </section>
+
+    <section id="worldPage" class="page">
+
+  <div class="world-hero">
+    <div class="world-hanja">天下大勢</div>
+    <div class="world-kor">천하대세</div>
+  </div>
+
+  <div class="world-block">
+    <div class="world-title">세계 개요 · 世界槪要</div>
+
+    <div class="world-text">
+시대는 중흥 3년.
+
+연화제국은 사백 년 전 천하를 통일한 정통 왕조였으나, 북량과의 대전쟁 이후 쇠락의 길에 접어들었다. 제국은 여전히 황도를 중심으로 남천하를 다스리고 있으나, 문파와 세가, 조정과 무림, 황권과 사권은 서로를 믿지 않는다.
+
+현무장벽은 남과 북을 갈라놓았으나, 전쟁을 끝낸 것이 아니라 잠시 멈추게 했을 뿐이다.
+
+북쪽에서는 북량이 철기군을 정비하고, 남쪽에서는 조정과 남무림이 서로 견제하며, 동해에서는 수적과 상단이 물길을 다툰다. 그리고 마천산맥 깊은 곳에서는 멸망했다고 여겨졌던 적멸교가 다시 숨을 고르고 있다.
+    </div>
+  </div>
+
+  <div class="world-block">
+    <div class="world-title">연표 · 年代記</div>
+
+    <div class="timeline">
+
+      <div class="timeline-item">
+        <div class="timeline-year">50년 전</div>
+        <div class="timeline-desc">
+연화제국과 북량 사이에 대전쟁이 발발한다.
+수많은 성과 문파가 불타고,
+남북의 원한은 피로 새겨졌다.
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-year">37년 전</div>
+        <div class="timeline-desc">
+제국은 북방의 침공을 막기 위해
+현무장벽을 축조한다.
+장벽은 국경이 되었고,
+남북은 완전히 분리되었다.
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-year">16년 전</div>
+        <div class="timeline-desc">
+남무림과 조정 사이의 갈등이 깊어진다.
+문파는 황명을 경계하고,
+조정은 무림의 사병화를 두려워하기 시작한다.
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-year">8년 전</div>
+        <div class="timeline-desc">
+마천산맥 일대에서 적멸교의 흔적이 발견된다.
+이후 산맥 주변에서 실종과 기괴한 사건이 이어진다.
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-year">3년 전</div>
+        <div class="timeline-desc">
+제16대 황제가 붕어하고,
+연휘가 제17대 황제로 즉위한다.
+
+새 황제는 중흥을 선언하며
+쇠락한 제국을 다시 일으키려 한다.
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-year">현재</div>
+        <div class="timeline-desc">
+중흥 3년.
+
+천하는 다시 한번
+거대한 전쟁과 음모의 문턱에 서 있다.
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="world-block">
+    <div class="world-title">세력 · 勢力</div>
+
+    <div class="faction-name">연화제국 · 煙華帝國</div>
+
+    <div class="world-text">
+사백 년 전 천하를 통일한 정통 왕조.
+
+황도를 중심으로 남천하를 다스리며,
+조정과 황권, 금군과 천룡군을 통해 질서를 유지한다.
+
+그러나 겉으로는 위엄 있는 제국일지라도
+내부에는 문벌 귀족,
+무림 문파,
+명문세가의 이해관계가 복잡하게 얽혀 있다.
+
+제17대 황제 연휘는
+무너져가는 제국을 다시 일으키기 위해 중흥을 선포했으나,
+그 길은 피와 숙청,
+외교와 전쟁을 모두 요구한다.
+    </div>
+
+    <div class="faction-name">북량 · 北凉</div>
+
+    <div class="world-text">
+설원과 평원을 지배하는 북방의 강국.
+
+북량왕 혁무진 아래
+철기군과 북무림,
+북부세가가 얽혀 거대한 군사 질서를 이루고 있다.
+
+북량은 약한 자가 빼앗기는 땅이며,
+힘 있는 자만이 법을 말할 수 있는 곳이다.
+
+그들은 현무장벽을 국경으로 인정하지 않는다.
+
+북량에게 장벽은
+잃어버린 천하를 되찾기 전까지 잠시 막힌 문일 뿐이다.
+    </div>
+
+    <div class="faction-name red">적멸교 · 寂滅敎</div>
+
+    <div class="world-text">
+천하공적으로 몰려 멸망했다고 알려진 마도 세력.
+
+그러나 마천산맥 깊은 곳에서
+그들은 사라지지 않았다.
+
+적멸교는 죽음과 공허,
+인간의 욕망을 숭배하며
+혼란 속에서 세력을 되살린다.
+
+교주 천무혁과 사천마의 존재는
+이미 강호 전체에 공포로 퍼졌으며,
+그들의 목적이 단순한 복수인지,
+천하의 멸망인지 아는 자는 거의 없다.
+    </div>
+  </div>
+
+  <div class="world-block">
+    <div class="world-title">천하 질서 · 天下秩序</div>
+
+    <div class="order-name">황권 · 皇權</div>
+    <div class="world-text">
+연화제국 황실의 권위.
+법과 관료, 군대를 통해 천하를 통치하려 하지만,
+무림과 세가의 독자성을 완전히 누르지는 못한다.
+    </div>
+
+    <div class="order-name">왕권 · 王權</div>
+    <div class="world-text">
+북량왕을 중심으로 한 북방 권력.
+혈통보다 실력,
+명분보다 승리를 중시하며 철기군의 충성으로 유지된다.
+    </div>
+
+    <div class="order-name">남무림 · 南武林</div>
+    <div class="world-text">
+화산, 종남, 소림을 중심으로 한 남방 문파 질서.
+명분과 도의를 말하지만,
+각 문파의 생존과 명예도 결코 가볍지 않다.
+    </div>
+
+    <div class="order-name">북무림 · 北武林</div>
+    <div class="world-text">
+공동, 청성, 곤륜을 중심으로 한 북방 무림.
+혹독한 땅에서 살아남은 만큼
+실전성과 생존 감각이 강하다.
+    </div>
+
+    <div class="order-name">남부세가 · 南部世家</div>
+    <div class="world-text">
+사천당가, 남궁세가, 제갈세가.
+
+혈통,
+재력,
+무공,
+지략을 모두 가진 남방의 명문가들이다.
+    </div>
+
+    <div class="order-name">북부세가 · 北部世家</div>
+    <div class="world-text">
+모용세가와 하북팽가 등
+북방 권력과 연결된 가문들.
+
+북량과 협력하면서도
+독자적인 세력을 유지한다.
+    </div>
+
+    <div class="order-name">녹림 · 綠林</div>
+    <div class="world-text">
+산채와 산적의 연합.
+
+법 밖에서 살아가지만,
+약자에게는 관보다 가까운 힘이 되기도 한다.
+    </div>
+
+    <div class="order-name">개방 · 開幇</div>
+    <div class="world-text">
+거지와 유랑민으로 이루어진 천하 최대 정보망.
+
+왕궁의 비밀도,
+객잔의 소문도 결국 개방의 귀에 닿는다.
+    </div>
+
+    <div class="order-name red">마도 · 魔道</div>
+    <div class="world-text">
+정파와 조정이 금기시하는 힘.
+
+적멸교를 비롯해
+수많은 사파와 금술이 여기에 속한다.
+    </div>
+
+    <div class="order-name">수적 · 水賊</div>
+    <div class="world-text">
+강과 바다를 무대로 삼는 해상 세력.
+
+동해십팔채는 상단과 관군,
+해상 무림 모두에게 두려운 이름이다.
+    </div>
+  </div>
+
+  <div class="world-block">
+    <div class="world-title">금기와 전설 · 禁忌與傳說</div>
+
+    <div class="legend">
+“마천산맥 최심부에는 이름 없는 궁이 존재하며,
+그곳에 들어간 자는 자신의 이름을 잊는다.”
+    </div>
+
+    <div class="legend">
+“현무장벽 아래에는 아직도 대전쟁 때 죽은 장수들의 검이 묻혀 있다.”
+    </div>
+
+    <div class="legend">
+“초대 황제는 죽지 않았고,
+황도 지하 어딘가에서 다시 천하가 무너질 날을 기다린다.”
+    </div>
+
+    <div class="legend">
+“동해 가장 깊은 곳에는 검은 용이 잠들어 있으며,
+그 비늘 하나가 천하의 병기를 부순다.”
+    </div>
+
+    <div class="legend">
+“적멸교는 교주가 죽어도 사라지지 않는다.
+인간의 욕망이 남아 있는 한,
+그들은 다시 태어난다.”
+    </div>
+
+    <div class="legend">
+“북량의 설원 어딘가에는 하늘에서 떨어진 검이 꽂혀 있으며,
+그것을 뽑는 자가 북천을 지배한다.”
+    </div>
+
+    <div class="legend">
+“개방 방주조차 찾지 못한 비밀 문서에는
+제국 멸망의 날이 적혀 있다.”
+    </div>
+
+    <div class="legend">
+“현경을 넘어선 자는 더 이상 인간이라 부르지 않는다.”
+    </div>
+  </div>
+
+  <div class="world-block">
+    <div class="world-title">이야기의 시작 · 物語의 시작</div>
+
+    <div class="world-text">
+천하는 아직 무너지지 않았다.
+
+그러나 모든 것은 이미 흔들리고 있다.
+
+황제는 잃어버린 권위를 되찾으려 하고,
+북량왕은 장벽 너머의 천하를 바라보며,
+무림은 명분과 생존 사이에서 칼을 쥐고,
+적멸교는 어둠 속에서 다시 숨을 쉰다.
+
+이 세계에서 살아남는 자는 강한 자가 아니다.
+
+끝까지 선택을 포기하지 않는 자다.
+    </div>
+  </div>
+
+</section>
+
+    <div class="modal" id="characterModal">
+
+  <div class="modal-box">
+
+    <button class="close" onclick="closeCharacter()">×</button>
+
+    <button class="arrow left" onclick="prevCharacter()">‹</button>
+    <button class="arrow right" onclick="nextCharacter()">›</button>
+
+    <div class="modal-content">
+
+      <img id="modalImage" class="modal-image">
+
+      <h2 id="modalName"></h2>
+
+      <div id="modalTitle"></div>
+      <div id="modalAge"></div>
+      <div id="modalRealm"></div>
+      <div id="modalRole"></div>
+
+      <p id="modalQuote"></p>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+  <script>
+    (function(){
+      var btn=document.getElementById('enter');
+      var bg=document.querySelector('.bg-layer');
+      var mist=document.querySelector('.mist');
+      var logoLink = document.querySelector('.logo');
+      logoLink.addEventListener('click', function(event){
+        event.preventDefault();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        var titleGroup = document.querySelector('.stage');
+        titleGroup.classList.remove('hidden-titles');
+        titleGroup.style.transform = 'scale(1)';
+        bg.classList.remove('zoomed-out');
+        mist.style.transition='opacity 600ms ease';
+        mist.style.opacity='1';
+        btn.textContent='난세에 발을 들이다';
+        btn.style.opacity='1';
+        btn.disabled=false;
+        // hide entry grid when resetting
+        var grid = document.getElementById('entryGrid');
+        if(grid){ grid.classList.remove('show'); grid.setAttribute('aria-hidden','true'); }
+      });
+
+      btn.addEventListener('click',function(){
+        var bgmAudio = document.getElementById("bgm");
+        bgmAudio.volume = 0.35;
+        bgmAudio.play();
+        btn.disabled=true;
+        btn.classList.add('fade-away');
+        // zoom out background and slowly fade mist
+        bg.classList.add('zoomed-out');
+        mist.style.transition='opacity 3200ms ease';
+        mist.style.opacity='0.32';
+        document.querySelector('.stage').style.transition='transform 4200ms ease,opacity 4200ms ease';
+        document.querySelector('.stage').style.transform='scale(0.94)';
+        // original petals are static elements that animate continuously
+        var titleGroup = document.querySelector('.stage');
+        titleGroup.classList.add('hidden-titles');
+        setTimeout(function(){ btn.style.opacity='0'; },800);
+        // show the three-panel entry grid after a short delay
+        setTimeout(function(){
+          var grid = document.getElementById('entryGrid');
+          if(grid){ grid.classList.add('show'); grid.setAttribute('aria-hidden','false'); }
+        },4400);
+      });
+document.getElementById('card-people').onclick = function() {
+  showPage("people");
+};
+
+document.getElementById('card-world').onclick = function() {
+  showPage("world");
+};
+
+document.getElementById('card-map').onclick = function() {
+  showPage("map");
+};
+      // static initial petals are present in the markup and animate via CSS
+    })();
+    window.addEventListener("load", function () {
+  const bgmAudio = document.getElementById("bgm");
+  const playBtn = document.getElementById("playMusic");
+  const pauseBtn = document.getElementById("pauseMusic");
+  const volumeBar = document.getElementById("volumeControl");
+
+  if (!bgmAudio) return;
+
+  bgmAudio.volume = 0.35;
+
+  playBtn.addEventListener("click", function () {
+    bgmAudio.play();
+  });
+
+  pauseBtn.addEventListener("click", function () {
+    bgmAudio.pause();
+  });
+
+  volumeBar.addEventListener("input", function () {
+    bgmAudio.volume = Number(this.value);
+  });
+});
+
+function showPage(page, push = true){
+  document.querySelectorAll(".page").forEach(function(el){
+    el.classList.remove("active");
+  });
+
+  document.getElementById(page + "Page").classList.add("active");
+
+  if(push){
+    history.pushState({ page: page }, "", "#" + page);
+  }
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+}
+
+window.addEventListener("popstate", function(event){
+  const page = event.state?.page || "home";
+  showPage(page, false);
+});
+
+history.replaceState(
+  { page: "home" },
+  "",
+  "#home"
+);
+
+const modal = document.getElementById("characterModal");
+
+const characters = [
+  {
+    name:"연휘",
+    title:"중흥천자 (中興天子)",
+    age:"42세",
+    realm:"현경",
+    role:"연화제국 황제",
+    quote:"짐이 곧 연화다.",
+    image:"assets/images/연휘.png"
+  },
+  {
+    name:"연윤",
+    title:"잠룡태자 (潛龍太子)",
+    age:"26세",
+    realm:"절경",
+    role:"연화제국 황태자",
+    quote:"용은 때를 기다린다.",
+    image:"assets/images/연윤.png"
+  },
+{
+  name:"제갈현",
+  title:"백린수사 (白麟秀士)",
+  age:"29세",
+  realm:"절경",
+  role:"연화제국 재상",
+  quote:"붓도 사람을 죽인다.",
+  image:"assets/images/제갈현.png"
+},
+{
+  name:"진무백",
+  title:"철기무후 (鐵騎武侯)",
+  age:"28세",
+  realm:"극경",
+  role:"천룡대장군",
+  quote:"물러설 생각은 없다.",
+  image:"assets/images/진무백.png"
+},
+{
+  name:"서하린",
+  title:"유성검화 (流星劍花)",
+  age:"24세",
+  realm:"절경",
+  role:"화산파 일대제자",
+  quote:"별빛은 빠르거든.",
+  image:"assets/images/서하린.png"
+},
+{
+  name:"당유설",
+  title:"비혈독희 (飛血毒姬)",
+  age:"23세",
+  realm:"절경",
+  role:"사천당가 소가주",
+  quote:"독은 웃으면서 쓰는 거야.",
+  image:"assets/images/당유설.png"
+},
+{
+  name:"연청우",
+  title:"무영도객 (無影道客)",
+  age:"27세",
+  realm:"절경",
+  role:"종남파 일대제자",
+  quote:"그림자는 소리 없다.",
+  image:"assets/images/연청우.png"
+},
+{
+  name:"혜무",
+  title:"금강무승 (金剛武僧)",
+  age:"28세",
+  realm:"극경",
+  role:"소림사 무승",
+  quote:"분노는 약함이다.",
+  image:"assets/images/혜무.png"
+},
+{
+  name:"남궁설",
+  title:"설영검희 (雪影劍姬)",
+  age:"25세",
+  realm:"극경",
+  role:"남궁세가 소가주",
+  quote:"살아남아 봐.",
+  image:"assets/images/남궁설.png"
+},
+{
+  name:"제갈아린",
+  title:"유운천기 (流雲天機)",
+  age:"24세",
+  realm:"입경",
+  role:"제갈세가 책사",
+  quote:"흐름은 이미 정해졌어.",
+  image:"assets/images/제갈아린.png"
+},
+{
+  name:"혁무진",
+  title:"북천패왕 (北天覇王)",
+  age:"47세",
+  realm:"현경",
+  role:"북량왕",
+  quote:"약한 자는 빼앗긴다.",
+  image:"assets/images/혁무진.png"
+},
+{
+  name:"혁련하설",
+  title:"설랑공주 (雪狼公主)",
+  age:"23세",
+  realm:"절경",
+  role:"북량 왕녀",
+  quote:"늑대는 굶어도 안 꿇어.",
+  image:"assets/images/혁련하설.png"
+},
+{
+  name:"묵현",
+  title:"흑천도사 (黑天道師)",
+  age:"28세",
+  realm:"극경",
+  role:"북량 국사",
+  quote:"판은 이미 깔렸지.",
+  image:"assets/images/묵현.png"
+},
+{
+  name:"강여진",
+  title:"혈풍전호 (血風戰虎)",
+  age:"29세",
+  realm:"극경",
+  role:"북량 대사마",
+  quote:"피 냄새 좋군.",
+  image:"assets/images/강여진.png"
+},
+{
+  name:"악진호",
+  title:"파군권호 (破軍拳虎)",
+  age:"27세",
+  realm:"절경",
+  role:"공동파 일대제자",
+  quote:"부숴버리면 그만이다.",
+  image:"assets/images/악진호.png"
+},
+{
+  name:"서문연",
+  title:"귀영비검 (鬼影飛劍)",
+  age:"24세",
+  realm:"절경",
+  role:"청성파 검수",
+  quote:"안 보이면 끝이야.",
+  image:"assets/images/서문연.png"
+},
+{
+  name:"담월",
+  title:"설학도인 (雪鶴道人)",
+  age:"25세",
+  realm:"절경",
+  role:"곤륜파 도인",
+  quote:"눈은 다 덮어버리지.",
+  image:"assets/images/담월.png"
+},
+{
+  name:"모용천야",
+  title:"빙천검군 (氷天劍君)",
+  age:"26세",
+  realm:"극경",
+  role:"모용세가 소가주",
+  quote:"검은 차가워야 한다.",
+  image:"assets/images/모용천야.png"
+},
+{
+  name:"팽소란",
+  title:"광도무희 (狂刀武姬)",
+  age:"24세",
+  realm:"절경",
+  role:"하북팽가 무인",
+  quote:"시원하게 베어주지!",
+  image:"assets/images/팽소란.png"
+},
+{
+  name:"진악",
+  title:"녹림귀왕 (綠林鬼王)",
+  age:"30세",
+  realm:"극경",
+  role:"청양녹림채 채주",
+  quote:"살아남으면 왕이다.",
+  image:"assets/images/진악.png"
+},
+{
+  name:"소개",
+  title:"취룡개왕 (醉龍丐王)",
+  age:"32세",
+  realm:"극경",
+  role:"개방 방주",
+  quote:"거지들이 더 무섭다.",
+  image:"assets/images/소개.png"
+},
+{
+  name:"장해운",
+  title:"창해패왕 (滄海覇王)",
+  age:"31세",
+  realm:"극경",
+  role:"동해십팔채 패주",
+  quote:"바다엔 법이 없다.",
+  image:"assets/images/장해운.png"
+},
+{
+  name:"천무혁",
+  title:"적천마존 (寂天魔尊)",
+  age:"불명",
+  realm:"마경",
+  role:"적멸궁주",
+  quote:"끝은 이미 정해졌다.",
+  image:"assets/images/천무혁.png"
+},
+{
+  name:"적련화",
+  title:"혈월마도 (血月魔刀)",
+  age:"26세",
+  realm:"탈경",
+  role:"사천마",
+  quote:"피는 예쁘잖아?",
+  image:"assets/images/적련화.png"
+},
+{
+  name:"귀야",
+  title:"흑야귀수 (黑夜鬼手)",
+  age:"29세",
+  realm:"탈경",
+  role:"사천마",
+  quote:"조용히 죽어라.",
+  image:"assets/images/귀야.png"
+},
+{
+  name:"사독린",
+  title:"천독사군 (天毒邪君)",
+  age:"27세",
+  realm:"탈경",
+  role:"사천마",
+  quote:"다 똑같이 죽는다.",
+  image:"assets/images/사독린.png"
+},
+{
+  name:"무명",
+  title:"환야마객 (幻夜魔客)",
+  age:"불명",
+  realm:"탈경",
+  role:"사천마",
+  quote:"…밤은 이름을 묻지 않아.",
+  image:"assets/images/무명.png"
+}
+];
+
+let currentIndex = 0;
+
+function openCharacter(index){
+  currentIndex = index;
+
+  const c = characters[index];
+
+  document.getElementById("modalImage").src = c.image;
+  document.getElementById("modalName").innerText = c.name;
+  document.getElementById("modalTitle").innerText = c.title;
+  document.getElementById("modalAge").innerText = c.age;
+  document.getElementById("modalRealm").innerText = c.realm;
+  document.getElementById("modalRole").innerText = c.role;
+  document.getElementById("modalQuote").innerText = `"${c.quote}"`;
+
+  modal.classList.add("show");
+}
+
+function closeCharacter(){
+  modal.classList.remove("show");
+}
+
+function prevCharacter(){
+  currentIndex--;
+  if(currentIndex < 0){
+    currentIndex = characters.length - 1;
+  }
+  openCharacter(currentIndex);
+}
+
+function nextCharacter(){
+  currentIndex++;
+  if(currentIndex >= characters.length){
+    currentIndex = 0;
+  }
+  openCharacter(currentIndex);
+}
+
+document.querySelectorAll("#peoplePage .card").forEach((card, index)=>{
+  card.addEventListener("click", ()=>{
+    openCharacter(index);
+  });
+});
+const places = {
+  "북량성": {
+type:"북량 왕성",
+hanja:"北凉城",
+short:"북방 패권과 철기군의 중심.",
+image:"assets/images/place-bukryang.png",
+desc:"북량의 수도이자 왕성. 거대한 설원과 평원을 지배하는 북량의 심장으로, 철기군과 왕실 세력이 집중되어 있다. 현무장벽 이남을 되찾으려는 북량의 야망이 이곳에서 시작된다.",
+people:"혁무진, 혁련하설, 묵현, 강여진, 사마세가",
+special:"군마, 철광석, 설피, 북방 약주"
+},
+
+"화량성": {
+type:"북량 성",
+hanja:"華凉城",
+short:"공동파와 북방 무인의 도시.",
+image:"assets/images/place-city-north.png",
+desc:"북량 중부를 지키는 군사 성채. 공동파의 세력이 강하며, 실전을 중시하는 북방 무인들이 모여든다.",
+people:"악진호, 공동파",
+special:"철갑, 마른 육포, 화주, 무쇠 무기"
+},
+
+"요연성": {
+type:"북량 성",
+hanja:"妖燕城",
+short:"모용세가가 자리한 북방 검성.",
+image:"assets/images/place-city-north.png",
+desc:"북량 동부 평원과 해안을 연결하는 성. 모용세가의 냉혹한 검풍으로 이름 높으며, 귀족과 상단의 왕래가 활발하다.",
+people:"모용천야, 모용세가",
+special:"빙잠비단, 냉옥, 설차"
+},
+
+"요연촌": {
+type:"북량 촌락",
+hanja:"妖燕村",
+short:"요연성 아래 자리한 길목 촌락.",
+image:"assets/images/place-village-north.png",
+desc:"상단과 무인들이 잠시 쉬어가는 작은 촌락. 밤이면 모용세가 검수들의 그림자가 숲 사이를 스친다는 소문이 있다.",
+people:"상인, 북방 주민",
+special:"훈제육, 약초, 늑대 가죽"
+},
+
+"종한촌": {
+type:"북량 촌락",
+hanja:"終寒村",
+short:"차가운 바람과 군마의 마을.",
+image:"assets/images/place-village-north.png",
+desc:"풍한평원 북부에 위치한 촌락. 북량 철기군의 군마가 길러지며, 평생 말을 타고 살아가는 자들이 많다.",
+people:"유목민, 군마 관리인",
+special:"군마, 유제품, 말린 치즈"
+},
+
+"영광촌": {
+type:"북량 촌락",
+hanja:"榮光村",
+short:"왕성 보급로의 중심 촌락.",
+image:"assets/images/place-village-north.png",
+desc:"북량성으로 향하는 보급 길목. 군량과 병기가 자주 이동해 활기가 넘치지만 긴장감도 짙다.",
+people:"북량 병사, 상단",
+special:"군량미, 북방 술, 모피"
+},
+
+"한원촌": {
+type:"북량 촌락",
+hanja:"寒原村",
+short:"청성파 그림자가 드리운 설원 마을.",
+image:"assets/images/place-village-north.png",
+desc:"눈 덮인 산길 아래 자리한 촌락. 청성파 검수들이 은밀히 드나들며 국경의 정세를 살핀다.",
+people:"서문연, 청성파",
+special:"설삼, 빙초, 약초주"
+},
+
+"빙원촌": {
+type:"북방 촌락",
+hanja:"氷原村",
+short:"혹한 속에서도 살아가는 자들의 땅.",
+image:"assets/images/place-village-north.png",
+desc:"차가운 설원 한가운데 세워진 촌락. 사냥꾼과 약초꾼들이 혹독한 겨울을 견디며 살아간다.",
+people:"사냥꾼, 북방 주민",
+special:"백곰 가죽, 빙어, 설삼"
+},
+
+"운림촌": {
+type:"산촌",
+hanja:"雲林村",
+short:"곤륜 설산 아래 숨은 마을.",
+image:"assets/images/place-village-north.png",
+desc:"깊은 산림 속에 자리한 촌락. 곤륜파 도인들이 세속을 떠나 수행하며 살아간다.",
+people:"담월, 곤륜파",
+special:"설차, 영초, 산양유"
+},
+
+"왕암촌": {
+type:"북량 촌락",
+hanja:"王岩村",
+short:"옛 왕릉이 잠든 바위 마을.",
+image:"assets/images/place-village-north.png",
+desc:"거대한 바위 절벽 아래 세워진 촌락. 북량의 오래된 왕릉과 석상이 남아 있다.",
+people:"석공, 군역병",
+special:"흑석, 석조 공예품"
+},
+
+"거연항": {
+type:"북량 항구",
+hanja:"巨淵港",
+short:"북량 최대의 해상 교역항.",
+image:"assets/images/place-port-north.png",
+desc:"북량 동부의 거대한 항구. 하북팽가와 북량 수군의 영향력이 강하며, 동해 무역의 중심이다.",
+people:"팽소란, 하북팽가",
+special:"대형 어획물, 철재, 소금"
+},
+
+"현무장벽": {
+type:"국경 방어선",
+hanja:"玄武長壁",
+short:"천하를 가르는 거대한 장벽.",
+image:"assets/images/place-wall.png",
+desc:"연화제국과 북량의 국경을 가르는 거대한 방벽. 수많은 병사와 무림인이 이곳에서 대치한다.",
+people:"진무백, 천룡군",
+special:"군량, 철제 병기"
+},
+
+"해운관": {
+type:"동부 관문",
+hanja:"海雲關",
+short:"바다와 장벽이 만나는 관문.",
+image:"assets/images/place-gate.png",
+desc:"현무장벽 동쪽 끝에 위치한 관문. 개방의 정보망과 상단의 소문이 이곳에 모인다.",
+people:"소개, 개방",
+special:"해산물, 건어물, 소금"
+},
+
+"동명관": {
+type:"현무장벽 관문",
+hanja:"東明關",
+short:"동부 방면의 핵심 관문.",
+image:"assets/images/place-gate.png",
+desc:"해운관과 연결된 장벽의 동부 관문. 병력 이동과 상단 통행이 잦다.",
+people:"관군, 정보상",
+special:"활, 화살, 병장기"
+},
+
+"천격관": {
+type:"현무장벽 관문",
+hanja:"天擊關",
+short:"전선의 심장부.",
+image:"assets/images/place-gate.png",
+desc:"현무장벽 중앙부의 핵심 요충지. 북량과 연화제국의 긴장이 가장 짙은 곳이다.",
+people:"천룡군, 국경 수비대",
+special:"철갑, 군마"
+},
+
+"청하관": {
+type:"현무장벽 관문",
+hanja:"靑河關",
+short:"강과 산맥 사이의 관문.",
+image:"assets/images/place-gate.png",
+desc:"강줄기와 산악 지형을 끼고 있는 관문. 밀정과 무림인의 이동이 잦다.",
+people:"관군, 유랑 무인",
+special:"약초, 강어물"
+},
+
+"화룡관": {
+type:"현무장벽 관문",
+hanja:"火龍關",
+short:"마천산맥과 맞닿은 서부 관문.",
+image:"assets/images/place-gate.png",
+desc:"적멸교 소문이 끊이지 않는 불길한 관문. 병사들 사이에서도 꺼림칙한 장소로 유명하다.",
+people:"산악 정찰대",
+special:"화주, 철광석"
+},
+"청양호": {
+  type:"호수 / 녹림 거점",
+  hanja:"靑陽湖",
+  short:"녹림의 그림자가 드리운 호수.",
+  image:"assets/images/place-lake.png",
+  desc:"깊은 산림과 맞닿아 있는 거대한 호수. 관의 통제가 닿지 않는 곳이 많아 청양녹림채가 세력을 키우고 있다.",
+  people:"진악, 청양녹림채",
+  special:"민물어, 약초, 흑목재, 수공예품"
+},
+
+"동해": {
+  type:"해역",
+  hanja:"東海",
+  short:"천하 동쪽 끝의 거대한 바다.",
+  image:"assets/images/place-sea.png",
+  desc:"끝없는 수평선이 펼쳐진 거대한 바다. 상단과 해적선, 동해십팔채의 함선이 뒤섞이며 천하의 해상 질서를 흔드는 곳이다.",
+  people:"장해운, 동해십팔채",
+  special:"진주, 소금, 산호, 고래기름"
+},
+
+"풍한평원": {
+  type:"북방 평원",
+  hanja:"風寒平原",
+  short:"북량 기병대가 달리는 설원의 평야.",
+  image:"assets/images/place-plain.png",
+  desc:"북량 동부에 펼쳐진 광대한 평원. 유목 부족과 철기군의 군마가 질주하며, 전쟁이 일어나면 가장 먼저 피로 물드는 지역이다.",
+  people:"북량 철기군, 유목 부족",
+  special:"군마, 설피, 유제품"
+},
+
+"영수강": {
+  type:"강",
+  hanja:"靈水江",
+  short:"동부 수운을 책임지는 대강.",
+  image:"assets/images/place-river.png",
+  desc:"봉래성과 봉래촌을 지나는 강줄기. 상단의 왕래가 끊이지 않으며, 밤에는 밀무역선도 자주 드나든다.",
+  people:"상단, 수군, 뱃사공",
+  special:"민물진주, 약초, 어획물"
+},
+
+"연화강": {
+  type:"강",
+  hanja:"煙華江",
+  short:"제국의 심장을 흐르는 강.",
+  image:"assets/images/place-river.png",
+  desc:"천화성부터 황도를 지나 천녹요새, 천격관, 북량의 화랑성을 지나는 거대한 강. 연화제국의 물류와 군량 운송 대부분이 이 강을 통해 이루어진다.",
+  people:"관군, 상단, 강호 객",
+  special:"곡물, 수산물, 향신료"
+},
+
+"황도": {
+  type:"연화제국 수도",
+  hanja:"皇都",
+  short:"천하의 권력과 황명이 모이는 도시.",
+  image:"assets/images/place-hwangdo.png",
+  desc:"연화제국의 중심이자 황실과 조정의 심장. 황궁과 금군, 봉의감이 자리하고 있으며 수많은 대신과 무림 세력이 얽혀 있다.",
+  people:"연휘, 연윤, 제갈현",
+  special:"황실 비단, 금세공품, 향차"
+},
+
+"천녹요새": {
+  type:"연화제국 요새",
+  hanja:"天鹿要塞",
+  short:"북방 전선을 지키는 거대한 요새.",
+  image:"assets/images/place-fortress.png",
+  desc:"황도와 현무장벽 사이에 세워진 대규모 요새. 북량의 움직임을 감시하며 제국군의 핵심 병력이 주둔한다.",
+  people:"천룡군, 제국 정찰대",
+  special:"철갑, 군량미, 장궁"
+},
+
+"화산촌": {
+  type:"촌락 / 남무림 거점",
+  hanja:"華山村",
+  short:"화산파 검수들이 머무는 산촌.",
+  image:"assets/images/place-village.png",
+  desc:"산길과 숲 사이에 자리한 조용한 촌락. 화산파 제자들이 수련하며, 강호의 젊은 검객들이 자주 드나든다.",
+  people:"서하린, 화산파",
+  special:"매화주, 약초, 검철"
+},
+
+"화계성": {
+  type:"연화제국 성",
+  hanja:"華溪城",
+  short:"독과 약초의 도시.",
+  image:"assets/images/place-city.png",
+  desc:"사천당가의 영향력이 강하게 미치는 도시. 독초와 약재 거래가 활발하며, 강호의 의원과 독사가 자주 모인다.",
+  people:"당유설, 사천당가",
+  special:"독초, 해독단, 향료"
+},
+
+"연곡성": {
+  type:"연화제국 성",
+  hanja:"煙谷城",
+  short:"종남의 검풍이 흐르는 산성.",
+  image:"assets/images/place-city.png",
+  desc:"험준한 산세 속에 자리한 성. 종남파 검수들이 이곳을 중심으로 서부 무림 질서를 유지한다.",
+  people:"연청우, 종남파",
+  special:"산차, 약재, 목재"
+},
+
+"연림촌": {
+  type:"연화제국 촌락",
+  hanja:"煙林村",
+  short:"짙은 숲과 약초가 가득한 마을.",
+  image:"assets/images/place-village.png",
+  desc:"연곡성 인근 숲지대에 자리한 촌락. 약초꾼과 목재상이 많으며 종남파 제자들이 종종 들른다.",
+  people:"약초꾼, 종남파 제자",
+  special:"약초, 목재, 산버섯"
+},
+
+"낙계촌": {
+  type:"연화제국 촌락",
+  hanja:"落溪村",
+  short:"계곡 물소리가 흐르는 평온한 촌락.",
+  image:"assets/images/place-village.png",
+  desc:"작은 계곡을 따라 형성된 촌락. 최근 전란의 그림자가 드리우며 피난민과 유랑객이 늘고 있다.",
+  people:"촌민, 피난민",
+  special:"곡주, 민물어, 직물"
+},
+
+"천화성": {
+  type:"연화제국 성",
+  hanja:"天華城",
+  short:"불문과 수행의 중심지.",
+  image:"assets/images/place-city.png",
+  desc:"남방 불교 세력과 수행 무인들이 모이는 도시. 사찰과 수행장이 많아 고요하면서도 엄숙한 분위기를 풍긴다.",
+  people:"혜무, 소림사",
+  special:"향, 차, 목불상"
+},
+
+"천화촌": {
+  type:"연화제국 촌락",
+  hanja:"天華村",
+  short:"사찰 아래 자리한 평온한 마을.",
+  image:"assets/images/place-village.png",
+  desc:"천화성 아래 형성된 작은 촌락. 수행객과 순례자들이 머무르며 조용한 분위기가 흐른다.",
+  people:"승려, 순례객",
+  special:"약차, 염주, 산나물"
+},
+
+"영하성": {
+  type:"연화제국 성",
+  hanja:"影河城",
+  short:"남궁세가의 검풍이 흐르는 성.",
+  image:"assets/images/place-city.png",
+  desc:"황도 동북부의 핵심 요충지. 남궁세가의 영향력이 강하며, 북방 정세에 민감하게 반응한다.",
+  people:"남궁설, 남궁세가",
+  special:"명검, 은장신구, 비단"
+},
+
+"봉래성": {
+  type:"해안 성",
+  hanja:"蓬萊城",
+  short:"동해 무역과 지략이 모이는 도시.",
+  image:"assets/images/place-city.png",
+  desc:"연화제국 동남부 해안에 자리한 성. 제갈세가와 거대 상단이 뿌리내려 있으며, 정보와 재물이 끊이지 않는다.",
+  people:"제갈아린, 제갈세가",
+  special:"향신료, 비단, 해산물"
+},
+
+"청두촌": {
+  type:"연화제국 촌락",
+  hanja:"淸杜村",
+  short:"약재상이 모여드는 길목 마을.",
+  image:"assets/images/place-village.png",
+  desc:"화계성과 황도를 잇는 교역로에 자리한 촌락. 약재상과 독초상이 자주 왕래한다.",
+  people:"약재상, 상단",
+  special:"약초, 향료, 말린 약재"
+},
+
+"독림촌": {
+  type:"연화제국 촌락",
+  hanja:"毒林村",
+  short:"독초와 안개가 가득한 숲마을.",
+  image:"assets/images/place-village.png",
+  desc:"짙은 독안개가 피어오르는 숲 속 촌락. 외지인이 함부로 발을 들였다가 돌아오지 못하는 경우가 많다.",
+  people:"채약꾼, 독초상",
+  special:"독초, 독충, 희귀 약재"
+},
+
+"봉래촌": {
+  type:"해안 촌락",
+  hanja:"蓬萊村",
+  short:"바닷바람과 소문이 모이는 어촌.",
+  image:"assets/images/place-village.png",
+  desc:"봉래성 아래 형성된 어촌. 동해를 오가는 상선과 무림인의 소문이 가장 먼저 들어오는 곳이다.",
+  people:"어민, 상인",
+  special:"건어물, 소금, 진주"
+},
+
+"연마항": {
+  type:"연화제국 항구",
+  hanja:"煙馬港",
+  short:"동해 교역의 핵심 항구.",
+  image:"assets/images/place-port.png",
+  desc:"연화제국 동부 최대 항구 중 하나. 거연항과 마주보며 수많은 상선과 무림인이 오간다.",
+  people:"상단, 관군, 해상 무림인",
+  special:"소금, 건어물, 동해 진주, 조선목"
+},
+
+"마천산맥 적멸궁": {
+  type:"적멸교 본산",
+  hanja:"魔天山脈 寂滅宮",
+  short:"세상에서 잊힌 마도의 성지.",
+  image:"assets/images/place-jeokmyeol.png",
+  desc:"마천산맥 깊은 분지에 숨겨진 적멸교의 본거지. 검은 안개와 붉은 불빛이 밤마다 산맥을 물들인다고 전해진다.",
+  people:"천무혁, 적련화, 귀야, 사독린, 무명",
+  special:"혈옥, 마초, 흑철, 독단"
+}
+};
+
+function showPlace(name){
+  const p = places[name];
+  if(!p) return;
+
+  document.getElementById("placeName").innerText = name;
+  document.getElementById("placeHanja").innerText = p.hanja || "";
+  document.getElementById("placeType").innerText = p.type;
+  document.getElementById("placeShort").innerText = p.short || "";
+  document.getElementById("placeDesc").innerText = p.desc;
+  document.getElementById("placePeople").innerHTML = "<b>주요 인물:</b> " + p.people;
+  document.getElementById("placeSpecial").innerHTML = "<b>특산물:</b> " + (p.special || "비단, 약재, 곡물");
+  document.getElementById("placeImage").style.backgroundImage = `url('${p.image}')`;
+
+  document.getElementById("placePanel").classList.add("show");
+}
+  
+function closePlace(){
+  document.getElementById("placePanel").classList.remove("show");
+}
+document.querySelectorAll(".marker").forEach(function(marker){
+  marker.addEventListener("click", function(){
+    showPlace(this.title);
+  });
+});
+  </script>
+<audio id="bgm" loop>
+  <source src="assets/music/bgm.mp3" type="audio/mpeg">
+</audio>
+</body>
+</html>
