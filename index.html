@@ -797,141 +797,175 @@ nav{
   font-size:18px;
   line-height:1.8;
 }
-
-    /* =========================
-   MOBILE RESPONSIVE
+ 
+/* =========================
+   MOBILE FIX
 ========================= */
-@media (max-width: 768px){
+@media screen and (max-width: 768px) {
 
-  header{
-    padding:14px 18px;
-    flex-wrap:wrap;
-    gap:12px;
+  body {
+    overflow-x: hidden;
   }
 
-  nav{
-    width:100%;
-    display:flex;
-    justify-content:center;
-    gap:18px;
+  header {
+    position: sticky;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 18px 14px;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 18px;
+    box-sizing: border-box;
   }
 
-  nav a{
-    margin:0;
-    font-size:15px;
+  .logo {
+    width: fit-content;
   }
 
-  .logo-hanja{
-    font-size:22px;
+  .logo-zh {
+    font-size: 28px;
   }
 
-  .logo-kor{
-    font-size:11px;
+  .logo-kr {
+    font-size: 18px;
   }
 
-  /* 홈 카드 */
-  .entry-grid{
-    grid-template-columns:1fr;
-    gap:18px;
-    width:92%;
+  nav {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    gap: 0;
   }
 
-  .entry-card{
-    min-height:180px;
-    padding:24px;
+  .nav-link {
+    font-size: 22px;
+    padding: 6px 4px;
+    white-space: nowrap;
   }
 
-  .big-title{
-    font-size:34px;
+  .music-controls {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: 10px;
   }
 
-  /* 인물도감 */
-  #peoplePage .grid{
-    grid-template-columns:repeat(2,1fr);
-    gap:14px;
+  #volumeControl {
+    width: 160px;
   }
 
-  #peoplePage .card{
-    min-height:auto;
+  #worldPage {
+    padding: 260px 14px 70px;
+    background-attachment: scroll;
   }
 
-  #peoplePage .portrait{
-    height:170px;
+  .world-hero {
+    margin-bottom: 36px;
   }
 
-  .name{
-    font-size:18px;
+  .world-hanja {
+    font-size: 42px;
+    letter-spacing: 0.05em;
   }
 
-  /* 지도 */
-  #mapPage{
-    padding:90px 2vw 40px;
+  .world-kor {
+    font-size: 20px;
   }
 
-  #mapPage h1{
-    font-size:36px;
+  .world-block {
+    width: 100%;
+    max-width: 100%;
+    padding: 24px 18px;
+    box-sizing: border-box;
   }
 
-  .map-wrap{
-    overflow-x:auto;
-    padding-bottom:20px;
+  .world-title {
+    font-size: 26px;
   }
 
-  .map-img{
-    min-width:1100px;
+  .world-text {
+    font-size: 18px;
+    line-height: 1.9;
+    white-space: pre-line;
+    word-break: keep-all;
+    overflow-wrap: break-word;
   }
 
-  .marker{
-    transform:scale(0.72);
-    transform-origin:center;
+  .timeline-item {
+    display: block;
+    padding: 22px 0;
   }
 
-  /* 지역 패널 */
-  .place-panel-inner{
-    width:95%;
-    padding:20px;
-    grid-template-columns:1fr;
-    gap:20px;
-    max-height:90vh;
-    overflow-y:auto;
+  .timeline-year {
+    font-size: 24px;
+    margin-bottom: 12px;
   }
 
-  .place-image{
-    height:220px;
+  .timeline-desc {
+    font-size: 18px;
+    line-height: 1.9;
+    word-break: keep-all;
+    overflow-wrap: break-word;
   }
 
-  #placeName{
-    font-size:38px;
+  #mapPage {
+    padding: 260px 0 60px;
+    background-attachment: scroll;
   }
 
-  .place-text h3{
-    font-size:24px;
+  #mapPage h1 {
+    font-size: 38px;
+  }
+
+  #mapPage .map-wrap {
+    width: 100%;
+    max-width: none;
+    margin: 24px 0;
+    overflow-x: auto;
+  }
+
+  #mapPage .map-img {
+    width: 1000px;
+    max-width: none;
+  }
+
+  .marker {
+    font-size: 10px;
+    padding: 4px 7px;
+    transform: translate(-50%, -50%) scale(0.75);
+  }
+
+  .marker:hover {
+    transform: translate(-50%, -50%) scale(0.85);
+  }
+
+  .place-panel {
+    padding: 14px;
+  }
+
+  .place-panel-inner {
+    width: 100%;
+    min-height: auto;
+    grid-template-columns: 1fr;
+    padding: 24px 18px;
+    gap: 20px;
+  }
+
+  .place-left h2 {
+    font-size: 38px;
   }
 
   .place-desc,
+  .place-short,
   .place-people,
-  .place-special{
-    font-size:15px;
-    line-height:1.7;
+  .place-special {
+    font-size: 17px;
+    line-height: 1.8;
   }
-
-  /* 세계관 */
-  .world-section{
-    padding:26px;
-  }
-
-  .world-section h2{
-    font-size:32px;
-  }
-
-  .world-section p,
-  .world-section li{
-    font-size:15px;
-    line-height:1.8;
-  }
-
 }
-  
+    
   </style>
 </head>
 <body id="top">
