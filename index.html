@@ -808,10 +808,10 @@ nav{
   </a>
 
   <nav>
-    <a class="nav-link" href="#" onclick="showPage('home')">홈</a>
-    <a class="nav-link" href="#" onclick="showPage('people')">인물</a>
-    <a class="nav-link" href="#" onclick="showPage('world')">세계관</a>
-    <a class="nav-link" href="#" onclick="showPage('map')">지도</a>
+   <a class="nav-link" href="#home" onclick="showPage('home'); return false;">홈</a>
+   <a class="nav-link" href="#people" onclick="showPage('people'); return false;">인물</a>
+   <a class="nav-link" href="#world" onclick="showPage('world'); return false;">세계관</a>
+   <a class="nav-link" href="#map" onclick="showPage('map'); return false;">지도</a>
   </nav>
 
   <div class="music-controls">
@@ -943,7 +943,7 @@ nav{
   <p>천하는 넓고, 인간은 그 안에서 서로를 탐한다.</p>
 
   <div class="map-wrap">
-  <img src="assets/images/map.png" class="map-img">
+  <img src="assets/images/Map.png" class="map-img">
 
   <!-- 북량 -->
   <button class="marker north" style="left:28%; top:17%;" title="북량성">북량성</button>
@@ -1440,11 +1440,17 @@ window.addEventListener("popstate", function(event){
   showPage(page, false);
 });
 
+const firstPage = location.hash
+  ? location.hash.replace("#", "")
+  : "home";
+
 history.replaceState(
-  { page: "home" },
+  { page: firstPage },
   "",
-  "#home"
+  "#" + firstPage
 );
+
+showPage(firstPage, false);
 
 const modal = document.getElementById("characterModal");
 
