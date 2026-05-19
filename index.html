@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="ko">
 <head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>煙華亂世錄 · 연화난세록</title>
@@ -796,6 +797,141 @@ nav{
   font-size:18px;
   line-height:1.8;
 }
+
+    /* =========================
+   MOBILE RESPONSIVE
+========================= */
+@media (max-width: 768px){
+
+  header{
+    padding:14px 18px;
+    flex-wrap:wrap;
+    gap:12px;
+  }
+
+  nav{
+    width:100%;
+    display:flex;
+    justify-content:center;
+    gap:18px;
+  }
+
+  nav a{
+    margin:0;
+    font-size:15px;
+  }
+
+  .logo-hanja{
+    font-size:22px;
+  }
+
+  .logo-kor{
+    font-size:11px;
+  }
+
+  /* 홈 카드 */
+  .entry-grid{
+    grid-template-columns:1fr;
+    gap:18px;
+    width:92%;
+  }
+
+  .entry-card{
+    min-height:180px;
+    padding:24px;
+  }
+
+  .big-title{
+    font-size:34px;
+  }
+
+  /* 인물도감 */
+  #peoplePage .grid{
+    grid-template-columns:repeat(2,1fr);
+    gap:14px;
+  }
+
+  #peoplePage .card{
+    min-height:auto;
+  }
+
+  #peoplePage .portrait{
+    height:170px;
+  }
+
+  .name{
+    font-size:18px;
+  }
+
+  /* 지도 */
+  #mapPage{
+    padding:90px 2vw 40px;
+  }
+
+  #mapPage h1{
+    font-size:36px;
+  }
+
+  .map-wrap{
+    overflow-x:auto;
+    padding-bottom:20px;
+  }
+
+  .map-img{
+    min-width:1100px;
+  }
+
+  .marker{
+    transform:scale(0.72);
+    transform-origin:center;
+  }
+
+  /* 지역 패널 */
+  .place-panel-inner{
+    width:95%;
+    padding:20px;
+    grid-template-columns:1fr;
+    gap:20px;
+    max-height:90vh;
+    overflow-y:auto;
+  }
+
+  .place-image{
+    height:220px;
+  }
+
+  #placeName{
+    font-size:38px;
+  }
+
+  .place-text h3{
+    font-size:24px;
+  }
+
+  .place-desc,
+  .place-people,
+  .place-special{
+    font-size:15px;
+    line-height:1.7;
+  }
+
+  /* 세계관 */
+  .world-section{
+    padding:26px;
+  }
+
+  .world-section h2{
+    font-size:32px;
+  }
+
+  .world-section p,
+  .world-section li{
+    font-size:15px;
+    line-height:1.8;
+  }
+
+}
+  
   </style>
 </head>
 <body id="top">
