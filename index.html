@@ -911,35 +911,45 @@ nav{
   }
 
   #mapPage {
-    padding: 260px 0 60px;
-    background-attachment: scroll;
-  }
+  padding: 260px 0 60px;
+  background-attachment: scroll;
+}
 
-  #mapPage h1 {
-    font-size: 38px;
-  }
+#mapPage h1 {
+  font-size: 38px;
+}
 
-  #mapPage .map-wrap {
-    width: 100%;
-    max-width: none;
-    margin: 24px 0;
-    overflow-x: auto;
-  }
+/* 모바일 지도: PC 좌표 유지 */
+#mapPage .map-wrap {
+  width: 100%;
+  max-width: none;
+  margin: 24px 0;
 
-  #mapPage .map-img {
-    width: 1000px;
-    max-width: none;
-  }
+  overflow-x: auto;
+  overflow-y: hidden;
 
-  .marker {
-    font-size: 10px;
-    padding: 4px 7px;
-    transform: translate(-50%, -50%) scale(0.75);
-  }
+  -webkit-overflow-scrolling: touch;
+}
 
-  .marker:hover {
-    transform: translate(-50%, -50%) scale(0.85);
-  }
+#mapPage .map-img {
+  width: 1500px;
+  max-width: none;
+  height: auto;
+  display: block;
+}
+
+/* 지도 버튼 */
+.marker {
+  font-size: 11px;
+  padding: 4px 7px;
+
+  transform: translate(-50%, -50%) scale(0.85);
+  transform-origin: center;
+}
+
+.marker:hover {
+  transform: translate(-50%, -50%) scale(0.95);
+}
 
   .place-panel {
     padding: 14px;
